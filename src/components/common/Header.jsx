@@ -22,27 +22,28 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2">
+      <div className="bg-orange-400 text-white py-2 ">
         <div className="container mx-auto px-4 text-sm text-center">
           Welcome to Enaure - Your Premium Shopping Destination
         </div>
       </div>
 
       {/* Main Header */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-2 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
-            Enaure
+          <Link style={{
+            fontFamily: 'Cormorant Garamond, serif',
+          }} to="/" className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gray-600">
+            ENAURE
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`font-medium transition-colors ${
-                isActive('/') ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
-              }`}
+              className={`font-medium transition-colors ${isActive('/') ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
+                }`}
             >
               Home
             </Link>
@@ -50,9 +51,8 @@ const Header = () => {
               <Link
                 key={dept.path}
                 to={dept.path}
-                className={`font-medium transition-colors ${
-                  isActive(dept.path) ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
-                }`}
+                className={`font-medium transition-colors ${isActive(dept.path) ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
+                  }`}
               >
                 {dept.name}
               </Link>
