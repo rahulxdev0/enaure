@@ -98,7 +98,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
               <Link
                 to="/"
                 onClick={onClose}
-                className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+                className="text-xl font-bold text-gray-900 hover:text-orange-600 transition-colors"
               >
                 Enaure
               </Link>
@@ -106,7 +106,8 @@ const HomeSidebar = ({ isOpen, onClose }) => {
           </div>
 
           {/* User Profile Section */}
-          <div className="px-4 py-6 bg-gradient-to-br from-blue-600 to-indigo-700 text-white mx-4 mt-4 rounded-2xl">
+          <div className="px-4 py-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black
+ text-white mx-4 mt-4 rounded-2xl">
             {isAuthenticated && user ? (
               /* Logged In State */
               <div className="flex items-center gap-3">
@@ -121,7 +122,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 </div>
                 <button
                   onClick={() => handleNavigate("/dashboard")}
-                  className="px-3 py-1.5 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-50 transition-colors text-xs whitespace-nowrap"
+                  className="px-3 py-1.5 bg-white text-orange-600 rounded-lg font-medium hover:bg-gray-50 transition-colors text-xs whitespace-nowrap"
                 >
                   Dashboard
                 </button>
@@ -140,7 +141,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 </div>
                 <button
                   onClick={handleLoginClick}
-                  className="px-3 py-1.5 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-50 transition-colors text-xs whitespace-nowrap flex items-center gap-1"
+                  className="px-3 py-1.5 bg-white text-orange-600 rounded-lg font-medium hover:bg-gray-50 transition-colors text-xs whitespace-nowrap flex items-center gap-1"
                 >
                   <LogIn className="w-3 h-3" />
                   Login
@@ -157,7 +158,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 onClick={() => handleNavigate("/")}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                   isActive("/")
-                    ? "bg-blue-50 text-blue-600 shadow-sm"
+                    ? "bg-orange-50 text-orange-600 shadow-sm"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
@@ -169,7 +170,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 onClick={() => handleNavigate("/orders")}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                   isActive("/orders")
-                    ? "bg-blue-50 text-blue-600 shadow-sm"
+                    ? "bg-orange-50 text-orange-600 shadow-sm"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
@@ -181,7 +182,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 onClick={() => handleNavigate("/wishlist")}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                   isActive("/wishlist")
-                    ? "bg-blue-50 text-blue-600 shadow-sm"
+                    ? "bg-orange-50 text-orange-600 shadow-sm"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
@@ -205,7 +206,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                       onClick={() => handleNavigate(dept.path)}
                       className={`w-full flex items-center justify-between p-3 rounded-xl transition-all group ${
                         active
-                          ? "bg-blue-50 text-blue-600 shadow-sm"
+                          ? "bg-orange-50 text-orange-600 shadow-sm"
                           : "text-gray-700 hover:bg-gray-50"
                       }`}
                     >
@@ -213,7 +214,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                         <Icon
                           className={`w-5 h-5 ${
                             active
-                              ? "text-blue-600"
+                              ? "text-orange-600"
                               : "text-gray-500 group-hover:text-gray-700"
                           }`}
                         />
@@ -222,7 +223,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                       <ChevronRight
                         className={`w-4 h-4 ${
                           active
-                            ? "text-blue-600"
+                            ? "text-orange-600"
                             : "text-gray-400 group-hover:text-gray-600"
                         }`}
                       />
@@ -241,7 +242,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 onClick={() => handleNavigate("/help")}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                   isActive("/help")
-                    ? "bg-blue-50 text-blue-600 shadow-sm"
+                    ? "bg-orange-50 text-orange-600 shadow-sm"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
@@ -252,7 +253,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
                 onClick={() => handleNavigate("/settings")}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                   isActive("/settings")
-                    ? "bg-blue-50 text-blue-600 shadow-sm"
+                    ? "bg-orange-50 text-orange-600 shadow-sm"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >

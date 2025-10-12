@@ -12,7 +12,8 @@ const Header = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const departments = [
-    { name: 'Jewellery', path: '/jewellery' },
+    // { name: 'Jewellery', path: '/jewellery' },
+    { name: 'Jewellery', path: '/' },
     { name: 'Organic', path: '/organic' },
     { name: 'Green Energy', path: '/green-energy' },
   ];
@@ -40,13 +41,13 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link
+            {/* <Link
               to="/"
               className={`font-medium transition-colors ${isActive('/') ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
                 }`}
             >
               Home
-            </Link>
+            </Link> */}
             {departments.map((dept) => (
               <Link
                 key={dept.path}
