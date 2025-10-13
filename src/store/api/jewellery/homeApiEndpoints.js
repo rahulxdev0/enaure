@@ -37,7 +37,7 @@ export const homeApi = api.injectEndpoints({
     // 🟡 Get All Brands
     getBrands: builder.query({
       query: () => ({
-        url: "/brands",
+        url: "/brands?store=jewellery-store",
         method: "GET",
       }),
       providesTags: ["Brand"],

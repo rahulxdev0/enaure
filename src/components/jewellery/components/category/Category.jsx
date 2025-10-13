@@ -79,8 +79,6 @@ const Category = () => {
 
   return (
     <>
-      
-
       <div className="container mx-auto py-8 md:py-13 bg-white relative px-0 md:px-4">
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12 px-4">

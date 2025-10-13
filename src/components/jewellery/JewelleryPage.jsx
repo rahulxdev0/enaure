@@ -1,4 +1,5 @@
 import Banner from './components/banner/Banner.jsx';
+import Brand from './components/brand/Brand.jsx';
 import Category from './components/category/Category.jsx';
 import NewCollection from './components/newCollection/NewCollection.jsx';
 import TopProducts from './components/top-product/TopProducts.jsx';
@@ -12,6 +13,7 @@ const JewelleryPage = () => {
     <NewCollection />
     <TopProducts />
     <TrendingProducts />
+    <Brand />
     </>
   );
 };
