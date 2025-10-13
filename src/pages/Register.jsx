@@ -11,7 +11,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
-  const [register, {isLoading: isCreating, isSuccess, isError, error: registerError}] = useRegisterMutation();
+  const [register, {isLoading: isCreating, isSuccess, isError }] = useRegisterMutation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
