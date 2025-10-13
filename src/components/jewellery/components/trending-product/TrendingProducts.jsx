@@ -182,7 +182,7 @@ const TrendingProducts = () => {
 
         {/* Pagination Dots - Only show if more than one page */}
         {numDots > 1 && (
-          <div className="flex justify-center items-center gap-3 mt-10 hidden md:flex">
+          <div className="justify-center items-center gap-3 mt-10 hidden md:flex">
             {Array.from({ length: numDots }).map((_, index) => (
               <button
                 key={index}

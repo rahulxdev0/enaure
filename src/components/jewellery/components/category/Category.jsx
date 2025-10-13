@@ -3,35 +3,14 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import "./category.css"
 import Loader from "./Loader";
 import useMobileCheck from "../../../../hooks/useMobileCheck";
+import { useGetCategoriesQuery } from "../../../../store/api/jewellery/homeApiEndpoints";
 
 const Category = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const {data: categories= [], isLoading, error} = useGetCategoriesQuery();
   
   const isMobile = useMobileCheck(768);
   const scrollRef = useRef(null);
-
-  async function getAllCategory() {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(
-        "https://admin.enaure.com/api/categories?store=jewellery-store"
-      );
-      const data = await response.json();
-      setCategories(data.data || []);
-    } catch (error) {
-      console.log("something went wrong", error);
-      setError("Failed to load categories");
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    getAllCategory();
-  }, []);
 
   // Transform API data to match component structure
   const transformedCategories = categories.map(category => ({
@@ -72,7 +51,7 @@ const Category = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return <Loader />
   }
 
