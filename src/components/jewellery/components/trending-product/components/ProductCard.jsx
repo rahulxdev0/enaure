@@ -110,9 +110,7 @@ const ProductCard = ({ product, onQuickView }) => {
             {/* Action Container - Icons appear on hover */}
             <div className="flex justify-between items-center">
               {/* Left side - Heart and Eye icons (hidden by default, visible on hover) */}
-              <div className={`flex gap-2 transition-all duration-300 absolute bottom-5 left-4 ${
-                isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
-              }`}>
+              <div className={`flex gap-2 transition-all duration-300 absolute bottom-5 left-4`}>
                 <button
                   className="w-7 h-7 border border-gray-300 rounded flex items-center justify-center text-gray-500 hover:border-yellow-500 hover:text-yellow-500 transition-all duration-300"
                   title="Add to Wishlist"
