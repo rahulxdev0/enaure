@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useRegisterMutation } from "../store/api/authEndPoints";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+  const [register, {isLoading: isCreating, isSuccess, isError, error: registerError}] = useRegisterMutation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,9 +19,8 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     // Basic validation
@@ -30,23 +32,30 @@ const Register = () => {
 
     if (formData.password.length < 6) {
       setError("Password must be at least 6 characters long!");
-      setLoading(false);
       return;
     }
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      console.log("Registration data:", formData);
-      alert(
-        "Registration successful! Please check your email for verification."
-      );
-    }, 2000);
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      password: formData.password
+    }
+
+    try {
+      await register(payload);
+      if(isSuccess){
+        toast.success("otp send to your gmail!")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full flex flex-col lg:flex-row bg-white rounded-xl lg:rounded-2xl shadow-lg lg:shadow-xl overflow-hidden">
+      <div className="max-w-4xl w-full flex flex-col lg:flex-row bg-white rounded-xl lg:rounded-2xl lg:shadow-md border border-gray-300 overflow-hidden">
         {/* Left Side - Brand & Benefits - Hidden on mobile, visible on lg+ */}
         <div className="hidden lg:block lg:w-2/5 bg-gradient-to-br from-amber-500 to-yellow-600 p-8 text-white">
           {/* Logo/Brand */}
@@ -220,7 +229,7 @@ const Register = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="e.g. Saloni Gupta"
+                  placeholder="e.g. username"
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 text-sm"
                 />
@@ -236,7 +245,7 @@ const Register = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="saloni@example.com"
+                  placeholder="user@example.com"
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 text-sm"
                 />
@@ -337,7 +346,7 @@ const Register = () => {
             <p className="text-center text-gray-600 text-sm mt-6">
               Already have an account?{" "}
               <Link
-                to="/auth/login"
+                to="/login"
                 className="text-amber-700 hover:text-amber-800 font-semibold transition-colors duration-200"
               >
                 Sign in

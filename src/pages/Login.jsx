@@ -52,8 +52,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="w-full max-w-[95vw] sm:max-w-[480px] bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl overflow-hidden mx-auto">
+    <div className="md:min-h-screen flex items-center justify-center py-4 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <div className="w-full max-w-[95vw] sm:max-w-[480px] bg-white rounded-xl sm:rounded-2xl border border-gray-300 sm:shadow-xl overflow-hidden mx-auto">
         {/* Header Section */}
         <div className="p-6 sm:p-8 text-center bg-gradient-to-r from-amber-50 to-yellow-50">
           <div className="flex items-center justify-center mb-3 gap-3">
@@ -321,7 +321,7 @@ const Login = () => {
             <p className="text-gray-600 text-sm">
               Don't have an account?{" "}
               <Link
-                to="/auth/register"
+                to="/register"
                 className="text-amber-700 hover:text-amber-800 font-semibold transition-colors duration-200"
               >
                 Create Account
