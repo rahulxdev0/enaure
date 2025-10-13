@@ -29,7 +29,6 @@ const Category = () => {
       setLoading(false);
     }
   }
-
   useEffect(() => {
     getAllCategory();
   }, []);

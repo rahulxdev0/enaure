@@ -1,44 +1,7 @@
-// import React, { useEffect, useState } from "react";
-// import Loader from "./Loader";
-
-// const TopProducts = () => {
-//   const [data, setData] = useState([]);
-//   const [error, setError] = useState("");
-//   const [loading, setLoading] = useState(false);
-
-//   async function getTopProducts() {
-//     try {
-//       setLoading(true);
-//       setError(null);
-//       const response = await fetch(
-//         "https://admin.enaure.com/api/top-products?store=jewellery-store"
-//       );
-//       const data = await response.json();
-//       const finaData = data?.data?.categories;
-//       console.log("data:", finaData);
-//       setData(finaData || []);
-//     } catch (error) {
-//       console.log("something went wrong", error);
-//       setError("Failed to load categories");
-//     } finally {
-//       setLoading(false);
-//     }
-//   }
-
-//   useEffect(() => {
-//     getTopProducts();
-//   }, []);
-//   if(loading) return <Loader />
-//   return <div>TopProducts</div>;
-// };
-
-// export default TopProducts;
-
-
-
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Heart, Eye } from "lucide-react";
 import Loader from "./Loader";
+import useMobileCheck from "../../../../hooks/useMobileCheck";
 
 const TopProducts = () => {
   const [data, setData] = useState([]);
@@ -46,8 +9,9 @@ const TopProducts = () => {
   const [loading, setLoading] = useState(false);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const [likedProducts, setLikedProducts] = useState({});
+
+  const isMobile = useMobileCheck()
 
   async function getTopProducts() {
     try {
@@ -70,18 +34,6 @@ const TopProducts = () => {
 
   useEffect(() => {
     getTopProducts();
-  }, []);
-
-  // Check if mobile on mount and resize
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const productsPerPage = isMobile ? 1 : 5;
@@ -269,11 +221,11 @@ const TopProducts = () => {
         
         <div className="mb-3">
           <span className="text-lg font-semibold text-yellow-600">
-            ${product.price.toFixed(2)}
+            ₹{product.price.toFixed(2)}
           </span>
           {product.originalPrice && product.originalPrice > product.price && (
             <span className="text-lg text-gray-500 line-through ml-2">
-              ${product.originalPrice.toFixed(2)}
+              ₹{product.originalPrice.toFixed(2)}
             </span>
           )}
         </div>
@@ -445,22 +397,6 @@ const TopProducts = () => {
           </div>
         )}
 
-        {/* Category Dots Indicator for Mobile */}
-        {isMobile && data.length > 1 && (
-          <div className="flex justify-center mt-4 space-x-2">
-            {data.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentCategoryIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                  currentCategoryIndex === index 
-                    ? 'bg-blue-500 scale-125' 
-                    : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Mobile-specific styles */}
