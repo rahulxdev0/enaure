@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const NewCollection = () => {
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -250,9 +251,9 @@ const NewCollection = () => {
               <h3 className={titleStyle}>
                 JEWELRY TELLS A GREAT STORY
               </h3>
-              <a href="#" className={buttonStyle}>
+              <Link to="/view-product" className={buttonStyle}>
                 Discover more
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -262,9 +263,9 @@ const NewCollection = () => {
               <h3 className={titleStyle}>
                 DISCOVER NEW ARRIVALS
               </h3>
-              <a href="#" className={buttonStyle}>
+              <Link to="/view-product"className={buttonStyle}>
                 Discover more
-              </a>
+              </Link>
             </div>
             <div className="relative w-full max-w-[384px]">
               <div className={`relative h-[300px] rounded-lg overflow-hidden transition-all duration-1000 delay-300 ${

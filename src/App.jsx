@@ -8,6 +8,7 @@ import GreenEnergyPage from './components/green-energy/GreenEnergyPage';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import UserProfile from "./components/jewellery/components/userProfile/UserProfile";
+import ViewAndFilterProduct from './components/jewellery/product-filter/ViewAndFilterProduct.jsx';
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<UserProfile />} />
+          <Route path="view-product" element={<ViewAndFilterProduct />} />
         </Route>
       </Routes>
     </Router>
