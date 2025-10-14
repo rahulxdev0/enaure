@@ -169,9 +169,9 @@ const NewCollection = () => {
               <h3 className={titleStyle}>
                 JEWELRY TELLS A GREAT STORY
               </h3>
-              <a href="#" className={buttonStyle}>
+              <ink to="/view-product"className={buttonStyle}>
                 Discover more
-              </a>
+              </ink>
             </div>
             <div className="text-center">
               <h3 className={titleStyle}>

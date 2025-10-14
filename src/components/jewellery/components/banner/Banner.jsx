@@ -160,7 +160,7 @@ const Banner = () => {
             {/* Shop Now Button */}
             <div className={!isAnimating ? "animate-button" : ""}>
               <Link
-                to={slide.link}
+                to='/view-product'
                 className="inline-flex items-center justify-center gap-1 md:gap-2 bg-gray-900 text-white px-3 py-1.5 md:px-8 md:py-4 font-medium text-[8px] md:text-sm uppercase tracking-wider transition-all duration-300 hover:bg-gray-800 hover:shadow-lg group"
               >
                 <Sparkles className="w-2.5 h-2.5 md:w-4 md:h-4 group-hover:rotate-12 transition-transform duration-300" />
