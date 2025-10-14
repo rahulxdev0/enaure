@@ -80,7 +80,7 @@ const HomeSidebar = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={`fixed top-0 left-0 h-full w-80 max-w-[90vw] bg-white z-[101] shadow-2xl transform transition-all duration-300 ease-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "box" : "-translate-x-full"
         }`}
       >
         {/* Sidebar Content */}
@@ -106,8 +106,10 @@ const HomeSidebar = ({ isOpen, onClose }) => {
           </div>
 
           {/* User Profile Section */}
-          <div className="px-4 py-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black
- text-white mx-4 mt-4 rounded-2xl">
+          <div
+            className="px-4 py-6 bg-gradient-to-br from-gray-900 via-gray-800 to-black
+ text-white mx-4 mt-4 rounded-2xl"
+          >
             {isAuthenticated && user ? (
               /* Logged In State */
               <div className="flex items-center gap-3">
@@ -284,6 +286,21 @@ const HomeSidebar = ({ isOpen, onClose }) => {
           </div>
         </div>
       </div>
+      <style jsx>{`
+        @keyframes slide-in {
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(0%);
+          }
+        }
+
+        /* ...and then apply it: */
+        .box {
+          animation: slide-in 1000ms;
+        }
+      `}</style>
     </>
   );
 
