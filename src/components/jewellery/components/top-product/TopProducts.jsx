@@ -400,18 +400,7 @@ const TopProducts = () => {
       </div>
 
       {/* Mobile-specific styles */}
-      <style jsx>{`
-        @media (max-width: 767px) {
-          /* Hide scrollbar for tabs but allow scrolling */
-          .section-tabs-component {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          .section-tabs-component::-webkit-scrollbar {
-            display: none;
-          }
-        }
-      `}</style>
+      
     </section>
   );
 };
