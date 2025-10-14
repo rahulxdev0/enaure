@@ -1,0 +1,247 @@
+/* Promotional Banner Styles */
+.promotional-section-container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 15px;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 78px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Each main column (left/right halves) */
+.promotional-banner-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Individual Banner Section */
+.promotional-banner-section {
+  background-color: #f7f3ef;
+  display: flex;
+  min-height: 200px;
+  box-sizing: border-box;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease-out forwards;
+  border-radius: 8px;
+}
+
+/* Content parts within a banner */
+.promotional-banner-image-bg {
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 150px;
+}
+
+.promotional-banner-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.promotional-banner-subheading {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666666;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.promotional-banner-main-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.promotional-banner-description {
+  font-size: 13px;
+  color: #666666;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+/* "Discover more" Button */
+.promotional-discover-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333333;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.promotional-discover-button .promotional-button-text {
+  position: relative;
+  z-index: 2;
+}
+
+.promotional-discover-button .promotional-button-back {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fcc0c5;
+  transition: width 0.3s ease;
+  z-index: 1;
+}
+
+.promotional-discover-button:hover .promotional-button-back {
+  width: 100%;
+}
+
+/* Keyframe for fadeIn animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tablet Responsive (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .promotional-section-container {
+    max-width: 95%;
+    margin: 25px auto;
+    gap: 12px;
+    margin-bottom: 60px;
+  }
+  
+  .promotional-banner-column {
+    gap: 12px;
+  }
+  
+  .promotional-banner-section {
+    min-height: 180px;
+  }
+  
+  .promotional-banner-content {
+    padding: 18px;
+  }
+
+  .promotional-banner-main-heading {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .promotional-banner-description {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 767px) {
+  .promotional-section-container {
+    flex-direction: column;
+    margin: 20px auto;
+    gap: 0;
+    margin-bottom: 50px;
+  }
+  
+  .promotional-banner-column {
+    gap: 0;
+  }
+  
+  .promotional-banner-section {
+    flex-direction: column;
+    min-height: auto;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+  
+  .promotional-banner-image-bg {
+    min-height: 250px;
+    width: 100%;
+  }
+
+  .promotional-banner-content {
+    padding: 25px 20px;
+    text-align: center;
+  }
+
+  /* Mobile layout: Force alternating pattern */
+  .promotional-banner-section.mobile-image-first {
+    flex-direction: column;
+  }
+  
+  .promotional-banner-section.mobile-image-first .promotional-banner-image-bg {
+    order: 1;
+  }
+  
+  .promotional-banner-section.mobile-image-first .promotional-banner-content {
+    order: 2;
+  }
+  
+  .promotional-banner-section.mobile-text-first {
+    flex-direction: column;
+  }
+  
+  .promotional-banner-section.mobile-text-first .promotional-banner-content {
+    order: 1;
+  }
+  
+  .promotional-banner-section.mobile-text-first .promotional-banner-image-bg {
+    order: 2;
+  }
+
+  .promotional-banner-main-heading {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .promotional-banner-description {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .promotional-section-container {
+    margin-bottom: 40px;
+  }
+
+  .promotional-banner-image-bg {
+    min-height: 220px;
+  }
+
+  .promotional-banner-content {
+    padding: 20px 15px;
+  }
+
+  .promotional-banner-main-heading {
+    font-size: 18px;
+  }
+
+  .promotional-banner-subheading {
+    font-size: 10px;
+  }
+
+  .promotional-banner-description {
+    font-size: 13px;
+  }
+
+  .promotional-discover-button {
+    font-size: 13px;
+  }
+}
