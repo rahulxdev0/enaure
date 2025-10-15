@@ -1,5 +1,6 @@
-//src/components/jewellery/components/product-detail/components/ProductReviews.jsx
 import React, { useState } from 'react';
+import useMobileCheck from "../../../../../hooks/useMobileCheck";
+
 
 const ProductReviews = ({ product }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -7,13 +8,14 @@ const ProductReviews = ({ product }) => {
     rating: 5, 
     comment: ''
   });
+  const isMobile = useMobileCheck();
 
   const reviews = [
     {
       id: 1,
       userName: 'Enovathemes',
       date: 'March 21, 2024',
-      rating: 5,
+      rating: 5, 
       comment: "I'm in love with this ring! It's elegant and lightweight, perfect for both casual and formal occasions."
     }
   ];
@@ -35,7 +37,7 @@ const ProductReviews = ({ product }) => {
   );
 
   const StarRatingInput = ({ rating, onRatingChange }) => (
-    <div style={{ display: 'flex', gap: '5px', fontSize: '24px' }} className="star-rating-input">
+    <div style={{ display: 'flex', gap: '5px', fontSize: '24px', justifyContent: isMobile ? 'center' : 'flex-start' }} className="star-rating-input">
       {[1, 2, 3, 4, 5].map((star) => (
         <button
           key={star}
@@ -58,52 +60,115 @@ const ProductReviews = ({ product }) => {
     </div>
   );
 
+  // Responsive styles
+  const reviewsHeaderStyle = {
+    fontSize: isMobile ? '18px' : '20px',
+    fontWeight: 'bold',
+    marginBottom: isMobile ? '20px' : '30px',
+    textTransform: 'uppercase',
+    color: '#333',
+    textAlign: isMobile ? 'center' : 'left'
+  };
+
+  const reviewsContentStyle = {
+    display: 'flex',
+    gap: isMobile ? '30px' : '60px',
+    flexWrap: 'wrap',
+    flexDirection: isMobile ? 'column' : 'row'
+  };
+
+  const reviewsSummaryStyle = {
+    flex: isMobile ? '1 1 100%' : '1 1 300px'
+  };
+
+  const reviewsListStyle = {
+    flex: isMobile ? '1 1 100%' : '2 1 500px'
+  };
+
+  const averageRatingStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '20px',
+    flexDirection: isMobile ? 'column' : 'row',
+    gap: isMobile ? '10px' : '0',
+    textAlign: isMobile ? 'center' : 'left'
+  };
+
+  const ratingBarStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '8px',
+    fontSize: isMobile ? '13px' : '14px'
+  };
+
+  const writeReviewButtonStyle = {
+    backgroundColor: 'transparent',
+    color: '#666',
+    border: '1px solid #ddd',
+    padding: isMobile ? '10px 20px' : '12px 24px',
+    borderRadius: '4px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    width: isMobile ? '100%' : 'auto'
+  };
+
+  const reviewHeaderStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px',
+    flexDirection: isMobile ? 'column' : 'row',
+    alignItems: isMobile ? 'flex-start' : 'center',
+    gap: isMobile ? '8px' : '0'
+  };
+
+  const submitReviewButtonStyle = {
+    backgroundColor: '#d4af37',
+    color: 'white',
+    border: 'none',
+    padding: isMobile ? '10px 20px' : '12px 30px',
+    borderRadius: '4px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    width: isMobile ? '100%' : 'auto'
+  };
+
   return (
     <div className="product-reviews">
       {/* Reviews Header */}
-      <h2 style={{ 
-        fontSize: '20px', 
-        fontWeight: 'bold', 
-        marginBottom: '30px', 
-        textTransform: 'uppercase',
-        color: '#333'
-      }} className="reviews-header">
+      <h2 style={reviewsHeaderStyle} className="reviews-header">
         CUSTOMER REVIEWS
       </h2>
 
-      <div style={{ display: 'flex', gap: '60px', flexWrap: 'wrap' }} className="reviews-content">
+      <div style={reviewsContentStyle} className="reviews-content">
         
         {/* Left Column: Reviews Summary */}
-        <div style={{ flex: '1 1 300px' }} className="reviews-summary">
+        <div style={reviewsSummaryStyle} className="reviews-summary">
           {/* Average Rating */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }} className="average-rating">
-            <StarRatingDisplay rating={product.rating} size='20px'/>
-            <span style={{ fontSize: '14px', color: '#666', marginLeft: '10px' }} className="review-count">
+          <div style={averageRatingStyle} className="average-rating">
+            <StarRatingDisplay rating={product.rating} size={isMobile ? '18px' : '20px'}/>
+            <span style={{ fontSize: '14px', color: '#666', marginLeft: isMobile ? '0' : '10px' }} className="review-count">
               ({product.reviewCount} customer review)
             </span>
           </div>
           
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '25px' }} className="rating-text">
+          <div style={{ fontSize: '14px', color: '#666', marginBottom: '25px', textAlign: isMobile ? 'center' : 'left' }} className="rating-text">
             5 out of 5 Stars
           </div>
 
           {/* Rating Breakdown */}
           <div style={{ marginBottom: '30px' }} className="rating-breakdown">
             {[5, 4, 3, 2, 1].map(stars => (
-              <div key={stars} style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                marginBottom: '8px',
-                fontSize: '14px'
-              }} className="rating-bar">
-                <span style={{ width: '70px', color: '#666' }} className="stars-label">{stars} Stars</span>
+              <div key={stars} style={ratingBarStyle} className="rating-bar">
+                <span style={{ width: isMobile ? '60px' : '70px', color: '#666' }} className="stars-label">{stars} Stars</span>
                 <div style={{ 
                   flex: 1, 
                   backgroundColor: '#f0f0f0', 
                   height: '8px', 
                   borderRadius: '4px',
                   overflow: 'hidden',
-                  margin: '0 15px'
+                  margin: isMobile ? '0 10px' : '0 15px'
                 }} className="rating-bar-bg">
                   <div 
                     style={{ 
@@ -124,16 +189,7 @@ const ProductReviews = ({ product }) => {
           {/* Write Review Button */}
           <button 
             onClick={() => setShowReviewForm(true)}
-            style={{
-              backgroundColor: 'transparent',
-              color: '#666',
-              border: '1px solid #ddd',
-              padding: '12px 24px',
-              borderRadius: '4px',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              cursor: 'pointer'
-            }}
+            style={writeReviewButtonStyle}
             className="write-review-btn"
           >
             Write a review
@@ -141,14 +197,15 @@ const ProductReviews = ({ product }) => {
         </div>
 
         {/* Right Column: Reviews and Form */}
-        <div style={{ flex: '2 1 500px' }} className="reviews-list">
+        <div style={reviewsListStyle} className="reviews-list">
           {/* Existing Review */}
           <div style={{ marginBottom: '40px' }} className="existing-reviews">
             <h3 style={{ 
-              fontSize: '18px', 
-              fontWeight: 'bold', 
+              fontSize: isMobile ? '16px' : '18px',
+              fontWeight: 'bold',
               marginBottom: '20px',
-              color: '#333'
+              color: '#333',
+              textAlign: isMobile ? 'center' : 'left'
             }} className="reviews-title">
               1 REVIEW FOR {product.name}
             </h3>
@@ -159,9 +216,9 @@ const ProductReviews = ({ product }) => {
                 paddingBottom: '25px', 
                 borderBottom: '1px solid #eee' 
               }} className="review-item">
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }} className="review-header">
+                <div style={reviewHeaderStyle} className="review-header">
                   <StarRatingDisplay rating={review.rating} />
-                  <strong style={{ marginLeft: '15px', marginRight: '15px', fontSize: '14px' }} className="reviewer-name">
+                  <strong style={{ marginLeft: isMobile ? '0' : '15px', marginRight: isMobile ? '0' : '15px', fontSize: '14px' }} className="reviewer-name">
                     {review.userName}
                   </strong>
                   <span style={{ color: '#666', fontSize: '14px' }} className="review-date">{review.date}</span>
@@ -170,7 +227,7 @@ const ProductReviews = ({ product }) => {
                   color: '#555', 
                   lineHeight: '1.6', 
                   margin: 0,
-                  fontSize: '14px'
+                  fontSize: isMobile ? '13px' : '14px'
                 }} className="review-comment">
                   {review.comment}
                 </p>
@@ -182,10 +239,11 @@ const ProductReviews = ({ product }) => {
           {showReviewForm && (
             <div className="add-review">
               <h3 style={{ 
-                fontSize: '18px', 
-                fontWeight: 'bold', 
+                fontSize: isMobile ? '16px' : '18px',
+                fontWeight: 'bold',
                 marginBottom: '20px',
-                color: '#333'
+                color: '#333',
+                textAlign: isMobile ? 'center' : 'left'
               }} className="add-review-title">
                 ADD A REVIEW
               </h3>
@@ -197,7 +255,8 @@ const ProductReviews = ({ product }) => {
                     marginBottom: '10px', 
                     fontWeight: 'bold', 
                     fontSize: '14px',
-                    color: '#333'
+                    color: '#333',
+                    textAlign: isMobile ? 'center' : 'left'
                   }} className="rating-label">
                     Your rating *
                   </label>
@@ -213,7 +272,8 @@ const ProductReviews = ({ product }) => {
                     marginBottom: '10px', 
                     fontWeight: 'bold', 
                     fontSize: '14px',
-                    color: '#333'
+                    color: '#333',
+                    textAlign: isMobile ? 'center' : 'left'
                   }} className="comment-label">
                     Your review *
                   </label>
@@ -239,16 +299,7 @@ const ProductReviews = ({ product }) => {
                 
                 <button 
                   type="submit"
-                  style={{
-                    backgroundColor: '#d4af37',
-                    color: 'white',
-                    border: 'none',
-                    padding: '12px 30px',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    cursor: 'pointer'
-                  }}
+                  style={submitReviewButtonStyle}
                   className="submit-review-btn"
                 >
                   Submit
@@ -258,114 +309,189 @@ const ProductReviews = ({ product }) => {
           )}
         </div>
       </div>
-
-      {/* Mobile Styles */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .reviews-header {
-            font-size: 18px !important;
-            margin-bottom: 20px !important;
-            text-align: center;
-          }
-          
-          .reviews-content {
-            gap: 30px !important;
-            flex-direction: column;
-          }
-          
-          .reviews-summary,
-          .reviews-list {
-            flex: 1 1 100% !important;
-          }
-          
-          .average-rating {
-            justify-content: center;
-            text-align: center;
-            flex-direction: column;
-            gap: 10px;
-          }
-          
-          .average-rating .review-count {
-            margin-left: 0 !important;
-          }
-          
-          .rating-text {
-            text-align: center;
-            margin-bottom: 20px !important;
-          }
-          
-          .rating-bar {
-            font-size: 13px !important;
-          }
-          
-          .stars-label {
-            width: 60px !important;
-          }
-          
-          .rating-bar-bg {
-            margin: 0 10px !important;
-          }
-          
-          .write-review-btn {
-            width: 100%;
-            padding: 10px 20px !important;
-          }
-          
-          .reviews-title {
-            font-size: 16px !important;
-            text-align: center;
-          }
-          
-          .review-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-          }
-          
-          .reviewer-name {
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-          }
-          
-          .add-review-title {
-            font-size: 16px !important;
-            text-align: center;
-          }
-          
-          .star-rating-input {
-            justify-content: center;
-          }
-          
-          .submit-review-btn {
-            width: 100%;
-            padding: 10px 20px !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .reviews-header {
-            font-size: 16px !important;
-          }
-          
-          .rating-bar {
-            font-size: 12px !important;
-          }
-          
-          .stars-label {
-            width: 50px !important;
-          }
-          
-          .review-header {
-            font-size: 13px !important;
-          }
-          
-          .review-comment {
-            font-size: 13px !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };
 
 export default ProductReviews;
+
+
+
+
+
+
+
+
+
+
+// // src/components/ProductReviews.jsx
+// import React, { useState } from 'react';
+// import useMobileCheck from "../../../../../hooks/useMobileCheck";
+
+// const ProductReviews = ({ product }) => {
+//   const [showReviewForm, setShowReviewForm] = useState(false);
+//   const isMobile = useMobileCheck();
+
+//   // Use actual review data from API when available
+//   // For now, using mock data as per your API response structure
+//   const reviews = [
+//     {
+//       id: 1,
+//       userName: 'Enovathemes',
+//       date: 'March 21, 2024',
+//       rating: 5,
+//       comment: "I'm in love with this ring! It's elegant and lightweight, perfect for both casual and formal occasions."
+//     }
+//   ];
+
+//   const StarRatingDisplay = ({ rating, size = '16px' }) => (
+//     <div style={{ display: 'flex', alignItems: 'center' }} className="star-rating-display">
+//       <div style={{ color: '#ffd700', fontSize: size }} className="stars">
+//         {'★'.repeat(rating)}
+//       </div>
+//     </div>
+//   );
+
+//   // Responsive styles
+//   const reviewsHeaderStyle = {
+//     fontSize: isMobile ? '18px' : '20px',
+//     fontWeight: 'bold',
+//     marginBottom: isMobile ? '20px' : '30px',
+//     textTransform: 'uppercase',
+//     color: '#333',
+//     textAlign: isMobile ? 'center' : 'left'
+//   };
+
+//   return (
+//     <div className="product-reviews">
+//       {/* Reviews Header */}
+//       <h2 style={reviewsHeaderStyle} className="reviews-header">
+//         CUSTOMER REVIEWS
+//       </h2>
+
+//       <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '60px' }}>
+        
+//         {/* Left Column: Reviews Summary */}
+//         <div style={{ flex: isMobile ? '1 1 100%' : '1 1 300px' }} className="reviews-summary">
+//           {/* Average Rating */}
+//           <div style={{ 
+//             display: 'flex', 
+//             alignItems: 'center', 
+//             marginBottom: '20px',
+//             flexDirection: isMobile ? 'column' : 'row',
+//             gap: isMobile ? '10px' : '0',
+//             textAlign: isMobile ? 'center' : 'left'
+//           }} className="average-rating">
+//             <StarRatingDisplay rating={product.rating} size={isMobile ? '18px' : '20px'}/>
+//             <span style={{ fontSize: '14px', color: '#666', marginLeft: isMobile ? '0' : '10px' }} className="review-count">
+//               ({product.reviewCount} customer review)
+//             </span>
+//           </div>
+          
+//           <div style={{ fontSize: '14px', color: '#666', marginBottom: '25px', textAlign: isMobile ? 'center' : 'left' }} className="rating-text">
+//             5 out of 5 Stars
+//           </div>
+
+//           {/* Write Review Button */}
+//           <button 
+//             onClick={() => setShowReviewForm(true)}
+//             style={{
+//               backgroundColor: 'transparent',
+//               color: '#666',
+//               border: '1px solid #ddd',
+//               padding: isMobile ? '10px 20px' : '12px 24px',
+//               borderRadius: '4px',
+//               fontSize: '14px',
+//               fontWeight: 'bold',
+//               cursor: 'pointer',
+//               width: isMobile ? '100%' : 'auto'
+//             }}
+//             className="write-review-btn"
+//           >
+//             Write a review
+//           </button>
+//         </div>
+
+//         {/* Right Column: Reviews List */}
+//         <div style={{ flex: isMobile ? '1 1 100%' : '2 1 500px' }} className="reviews-list">
+//           {/* Existing Review */}
+//           <div style={{ marginBottom: '40px' }} className="existing-reviews">
+//             <h3 style={{ 
+//               fontSize: isMobile ? '16px' : '18px',
+//               fontWeight: 'bold',
+//               marginBottom: '20px',
+//               color: '#333',
+//               textAlign: isMobile ? 'center' : 'left'
+//             }} className="reviews-title">
+//               {reviews.length} REVIEW FOR {product.name}
+//             </h3>
+            
+//             {reviews.map((review) => (
+//               <div key={review.id} style={{ 
+//                 marginBottom: '25px', 
+//                 paddingBottom: '25px', 
+//                 borderBottom: '1px solid #eee' 
+//               }} className="review-item">
+//                 <div style={{ 
+//                   display: 'flex', 
+//                   alignItems: 'center', 
+//                   marginBottom: '10px',
+//                   flexDirection: isMobile ? 'column' : 'row',
+//                   alignItems: isMobile ? 'flex-start' : 'center',
+//                   gap: isMobile ? '8px' : '0'
+//                 }} className="review-header">
+//                   <StarRatingDisplay rating={review.rating} />
+//                   <strong style={{ marginLeft: isMobile ? '0' : '15px', marginRight: isMobile ? '0' : '15px', fontSize: '14px' }} className="reviewer-name">
+//                     {review.userName}
+//                   </strong>
+//                   <span style={{ color: '#666', fontSize: '14px' }} className="review-date">{review.date}</span>
+//                 </div>
+//                 <p style={{ 
+//                   color: '#555', 
+//                   lineHeight: '1.6', 
+//                   margin: 0,
+//                   fontSize: isMobile ? '13px' : '14px'
+//                 }} className="review-comment">
+//                   {review.comment}
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+
+//           {/* Review Form - You can implement this later when you have review submission API */}
+//           {showReviewForm && (
+//             <div className="add-review">
+//               <h3 style={{ 
+//                 fontSize: isMobile ? '16px' : '18px',
+//                 fontWeight: 'bold',
+//                 marginBottom: '20px',
+//                 color: '#333',
+//                 textAlign: isMobile ? 'center' : 'left'
+//               }} className="add-review-title">
+//                 ADD A REVIEW
+//               </h3>
+//               <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '4px', textAlign: 'center' }}>
+//                 <p style={{ color: '#666', marginBottom: '15px' }}>Review submission functionality coming soon!</p>
+//                 <button 
+//                   onClick={() => setShowReviewForm(false)}
+//                   style={{
+//                     backgroundColor: '#6c757d',
+//                     color: 'white',
+//                     border: 'none',
+//                     padding: '10px 20px',
+//                     borderRadius: '4px',
+//                     cursor: 'pointer'
+//                   }}
+//                 >
+//                   Close
+//                 </button>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProductReviews;

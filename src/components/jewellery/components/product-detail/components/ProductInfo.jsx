@@ -1,15 +1,30 @@
-//src/components/jewellery/components/product-detail/components/ProductInfo.jsx
+
+// src/components/jewellery/components/product-detail/components/ProductInfo.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useMobileCheck from "../../../../../hooks/useMobileCheck";
 
-const ProductInfo = ({ product }) => {
+const ProductInfo = ({ product, selectedCombination, setSelectedCombination }) => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState('');
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const isMobile = useMobileCheck();
+
+  const handleCombinationSelect = (combination) => {
+    setSelectedCombination(combination);
+  };
 
   const handleAddToCart = () => {
-    console.log('Added to cart:', { ...product, quantity, size: selectedSize });
+    const productToAdd = selectedCombination 
+      ? { 
+          ...product, 
+          ...selectedCombination, 
+          quantity,
+          finalPrice: selectedCombination.discounted_price || selectedCombination.price
+        }
+      : { ...product, quantity };
+    
+    console.log('Added to cart:', productToAdd);
     alert('Product added to cart!');
   };
 
@@ -22,30 +37,117 @@ const ProductInfo = ({ product }) => {
     setIsInWishlist(!isInWishlist);
   };
 
+  // Get current price based on selection
+  const getCurrentPrice = () => {
+    return selectedCombination 
+      ? (selectedCombination.discounted_price || selectedCombination.price)
+      : product.price;
+  };
+
+  const getOriginalPrice = () => {
+    return selectedCombination 
+      ? selectedCombination.price
+      : product.originalPrice;
+  };
+
   // Star Rating Component
   const StarRating = ({ rating, reviewCount }) => (
     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }} className="star-rating">
-      <div style={{ color: '#ffd700', fontSize: '18px', marginRight: '10px' }} className="stars">
+      <div style={{ color: '#ffd700', fontSize: isMobile ? '16px' : '18px', marginRight: '10px' }} className="stars">
         {'★'.repeat(rating)}
       </div>
-      <span style={{ fontSize: '14px', color: '#666' }} className="review-count">({reviewCount} customer review)</span>
+      <span style={{ fontSize: isMobile ? '13px' : '14px', color: '#666' }} className="review-count">
+        ({reviewCount} customer review)
+      </span>
     </div>
   );
 
+  // Responsive styles
+  const containerStyle = {
+    flex: isMobile ? '1 1 100%' : '1 1 45%',
+    minWidth: isMobile ? '100%' : '400px',
+    maxWidth: isMobile ? '100%' : '500px'
+  };
+
+  const titleStyle = {
+    fontSize: isMobile ? '20px' : '24px',
+    fontWeight: 'normal',
+    color: '#333',
+    margin: '0 0 10px 0',
+    lineHeight: '1.3'
+  };
+
+  const metaStyle = {
+    fontSize: isMobile ? '13px' : '14px',
+    color: '#666',
+    marginBottom: isMobile ? '12px' : '15px'
+  };
+
+  const priceSectionStyle = {
+    marginBottom: isMobile ? '20px' : '25px',
+    paddingBottom: isMobile ? '20px' : '25px',
+    borderBottom: '1px solid #eee'
+  };
+
+  const originalPriceStyle = {
+    fontSize: isMobile ? '16px' : '18px',
+    color: '#999',
+    textDecoration: 'line-through',
+    marginRight: '15px'
+  };
+
+  const currentPriceStyle = {
+    fontSize: isMobile ? '24px' : '28px',
+    color: '#2a9d8f',
+    fontWeight: 'bold'
+  };
+
+  const stockStyle = {
+    fontSize: isMobile ? '14px' : '15px',
+    color: (selectedCombination?.stock_status || product.stockStatus) === 'in_stock' ? '#22c55e' : '#ef4444',
+    fontWeight: 'bold',
+    marginBottom: '15px'
+  };
+
+  const actionButtonsStyle = {
+    display: 'flex',
+    gap: '15px',
+    marginBottom: isMobile ? '20px' : '25px',
+    flexDirection: isMobile ? 'column' : 'row'
+  };
+
+  const baseButtonStyle = {
+    padding: isMobile ? '12px 20px' : '15px 30px',
+    borderRadius: '4px',
+    fontSize: isMobile ? '15px' : '16px',
+    fontWeight: 'bold',
+    flex: '1',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    border: 'none'
+  };
+
+  const isInStock = (selectedCombination?.stock_status || product.stockStatus) === 'in_stock';
+
+  const addToCartButtonStyle = {
+    ...baseButtonStyle,
+    backgroundColor: isInStock ? '#f4f4f4' : '#f0f0f0',
+    color: isInStock ? '#333' : '#999',
+    border: '1px solid #ddd',
+    cursor: isInStock ? 'pointer' : 'not-allowed'
+  };
+
+  const buyNowButtonStyle = {
+    ...baseButtonStyle,
+    backgroundColor: isInStock ? '#ca8a04' : '#d1d5db',
+    color: 'white',
+    cursor: isInStock ? 'pointer' : 'not-allowed'
+  };
+
   return (
-    <div className="product-info" style={{ 
-      flex: '1 1 45%', 
-      minWidth: '400px', 
-      maxWidth: '500px' 
-    }}>
+    <div className="product-info" style={containerStyle}>
       {/* Product Title */}
-      <h1 style={{ 
-        fontSize: '24px', 
-        fontWeight: 'normal', 
-        color: '#333', 
-        margin: '0 0 10px 0',
-        lineHeight: '1.3'
-      }} className="product-title">
+      <h1 style={titleStyle} className="product-title">
         {product.name}
       </h1>
       
@@ -53,96 +155,147 @@ const ProductInfo = ({ product }) => {
       <StarRating rating={product.rating} reviewCount={product.reviewCount} />
 
       {/* SKU and Category */}
-      <div style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }} className="product-meta">
-        <strong>SKU:</strong> {product.sku} <strong style={{ marginLeft: '15px' }}>Category:</strong> Rings
+      <div style={metaStyle} className="product-meta">
+        <strong>SKU:</strong> {selectedCombination?.sku || product.sku} 
+        <strong style={{ marginLeft: '15px' }}>Category:</strong> {product.category}
+      </div>
+
+      {/* Selected Variant */}
+      {selectedCombination && (
+        <div style={{ 
+          backgroundColor: '#f0f8ff', 
+          padding: '10px', 
+          borderRadius: '4px', 
+          marginBottom: '15px',
+          fontSize: '14px'
+        }}>
+          <strong>Selected: </strong>
+          {selectedCombination.variant?.name}: {selectedCombination.variant?.variant_value?.name}
+        </div>
+      )}
+
+      {/* Stock Status */}
+      <div style={stockStyle} className="stock-status">
+        {isInStock ? 'In Stock' : 'Out of Stock'}
+        {(selectedCombination?.stock_quantity || product.stockQuantity) > 0 && ` (${selectedCombination?.stock_quantity || product.stockQuantity} available)`}
       </div>
 
       {/* Price */}
-      <div style={{ 
-        marginBottom: '25px', 
-        paddingBottom: '25px', 
-        borderBottom: '1px solid #eee'
-      }} className="price-section">
-        <span style={{ 
-          fontSize: '18px', 
-          color: '#999', 
-          textDecoration: 'line-through', 
-          marginRight: '15px' 
-        }} className="original-price">
-          ${product.originalPrice}
-        </span>
-        <span style={{ 
-          fontSize: '28px', 
-          color: '#2a9d8f', 
-          fontWeight: 'bold' 
-        }} className="current-price">
-          ${product.price}
+      <div style={priceSectionStyle} className="price-section">
+        {getOriginalPrice() > getCurrentPrice() && (
+          <span style={originalPriceStyle} className="original-price">
+            ${getOriginalPrice()}
+          </span>
+        )}
+        <span style={currentPriceStyle} className="current-price">
+          ${getCurrentPrice()}
         </span>
       </div>
 
+      {/* Variant Selection */}
+      {product.availableCombinations && product.availableCombinations.length > 0 && (
+        <div style={{ marginBottom: '20px' }} className="variant-selection">
+          <h3 style={{ fontSize: '16px', marginBottom: '10px', fontWeight: 'bold' }}>
+            Available Options:
+          </h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {product.availableCombinations.map((combination, index) => (
+              <button
+                key={combination.combination_id}
+                onClick={() => handleCombinationSelect(combination)}
+                style={{
+                  padding: '8px 16px',
+                  border: selectedCombination?.combination_id === combination.combination_id 
+                    ? '2px solid #d4af37' 
+                    : '1px solid #ddd',
+                  borderRadius: '4px',
+                  backgroundColor: selectedCombination?.combination_id === combination.combination_id 
+                    ? '#fefce8' 
+                    : '#fff',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  opacity: combination.stock_status === 'out_of_stock' ? 0.6 : 1
+                }}
+                disabled={combination.stock_status === 'out_of_stock'}
+              >
+                {combination.variant?.variant_value?.name} - ${combination.discounted_price}
+                {combination.stock_status === 'out_of_stock' && ' (Out of Stock)'}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Quantity Selector */}
+      <div style={{ marginBottom: '20px' }} className="quantity-selector">
+        <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>Quantity:</label>
+        <input
+          type="number"
+          min="1"
+          max={selectedCombination?.stock_quantity || product.stockQuantity}
+          value={quantity}
+          onChange={(e) => setQuantity(parseInt(e.target.value))}
+          style={{
+            width: '80px',
+            padding: '8px',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            textAlign: 'center'
+          }}
+        />
+      </div>
+
       {/* Action Buttons */}
-      <div className="action-buttons" style={{ 
-        display: 'flex', 
-        gap: '15px', 
-        marginBottom: '25px' 
-      }}>
+      <div className="action-buttons" style={actionButtonsStyle}>
         <button 
           onClick={handleAddToCart}
-          style={{
-            backgroundColor: '#f4f4f4',
-            color: '#333',
-            border: '1px solid #ddd',
-            padding: '15px 30px',
-            borderRadius: '4px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            flex: '1',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s'
-          }}
+          style={addToCartButtonStyle}
           className="add-to-cart-btn"
-          onMouseOver={(e) => e.target.style.backgroundColor = '#e9e9e9'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#f4f4f4'}
+          disabled={!isInStock}
+          onMouseOver={(e) => {
+            if (isInStock) {
+              e.target.style.backgroundColor = '#e9e9e9';
+            }
+          }}
+          onMouseOut={(e) => {
+            if (isInStock) {
+              e.target.style.backgroundColor = '#f4f4f4';
+            }
+          }}
         >
           <span style={{ marginRight: '8px' }}>🛒</span>
-          Add to cart
+          {isInStock ? 'Add to cart' : 'Out of Stock'}
         </button>
         <button 
           onClick={handleBuyNow}
-          style={{
-            backgroundColor: '#ca8a04',
-            color: 'white',
-            border: 'none',
-            padding: '15px 30px',
-            borderRadius: '4px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            flex: '1',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s'
-          }}
+          style={buyNowButtonStyle}
           className="buy-now-btn"
-          onMouseOver={(e) => e.target.style.backgroundColor = '#b8942f'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#d4af37'}
+          disabled={!isInStock}
+          onMouseOver={(e) => {
+            if (isInStock) {
+              e.target.style.backgroundColor = '#b8942f';
+            }
+          }}
+          onMouseOut={(e) => {
+            if (isInStock) {
+              e.target.style.backgroundColor = '#ca8a04';
+            }
+          }}
         >
-          <span style={{ marginRight: '8px' }}>🛒</span>
+          <span style={{ marginRight: '8px' }}>⚡</span>
           Buy now
         </button>
       </div>
 
       {/* Additional Actions */}
-      <div className="additional-actions" style={{ 
-        display: 'flex', 
-        gap: '25px', 
-        marginBottom: '30px' 
-      }}>
+      <div className="additional-actions" style={{ marginBottom: '25px' }}>
         <button 
           onClick={toggleWishlist}
           style={{ 
             background: 'none', 
             border: 'none', 
             color: '#666', 
-            fontSize: '14px', 
+            fontSize: isMobile ? '13px' : '14px', 
             cursor: 'pointer', 
             display: 'flex', 
             alignItems: 'center' 
@@ -156,107 +309,19 @@ const ProductInfo = ({ product }) => {
         </button>
       </div>
 
-      {/* Social Icons */}
-      <div style={{ 
-        display: 'flex', 
-        gap: '10px', 
-        marginBottom: '30px' 
-      }} className="social-icons">
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>f</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>×</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>℗</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>in</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>⌁</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>Ⓜ</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>⚐</button>
-        <button style={{ background: 'none', border: 'none', fontSize: '18px', color: '#666', cursor: 'pointer' }}>✈</button>
-      </div>
-
-      {/* Mobile Styles */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .product-info {
-            min-width: 100% !important;
-            max-width: 100% !important;
-          }
-          
-          .product-title {
-            font-size: 20px !important;
-            margin-bottom: 8px !important;
-          }
-          
-          .star-rating .stars {
-            font-size: 16px !important;
-          }
-          
-          .review-count {
-            font-size: 13px !important;
-          }
-          
-          .product-meta {
-            font-size: 13px !important;
-            margin-bottom: 12px !important;
-          }
-          
-          .price-section {
-            margin-bottom: 20px !important;
-            padding-bottom: 20px !important;
-          }
-          
-          .original-price {
-            font-size: 16px !important;
-          }
-          
-          .current-price {
-            font-size: 24px !important;
-          }
-          
-          .action-buttons {
-            flex-direction: column;
-            gap: 12px !important;
-            margin-bottom: 20px !important;
-          }
-          
-          .add-to-cart-btn,
-          .buy-now-btn {
-            padding: 12px 20px !important;
-            font-size: 15px !important;
-          }
-          
-          .additional-actions {
-            gap: 20px !important;
-            margin-bottom: 25px !important;
-            justify-content: center;
-          }
-          
-          .wishlist-btn {
-            font-size: 13px !important;
-          }
-          
-          .social-icons {
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 8px !important;
-            margin-bottom: 25px !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .product-title {
-            font-size: 18px !important;
-          }
-          
-          .current-price {
-            font-size: 22px !important;
-          }
-          
-          .add-to-cart-btn,
-          .buy-now-btn {
-            padding: 10px 15px !important;
-            font-size: 14px !important;
-          }
-        }
-      `}</style>
+      {/* Short Description */}
+      {product.shortDescription && (
+        <div style={{ 
+          backgroundColor: '#f8f9fa', 
+          padding: '15px', 
+          borderRadius: '4px', 
+          marginBottom: '20px',
+          fontSize: '14px',
+          lineHeight: '1.5'
+        }}>
+          {product.shortDescription}
+        </div>
+      )}
     </div>
   );
 };

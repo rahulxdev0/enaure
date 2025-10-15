@@ -24,7 +24,8 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<UserProfile />} />
           <Route path="view-product" element={<ViewAndFilterProduct />} />
-           <Route path="product/:productId" element={<ProductDetail />} /> 
+           <Route path="/product/:productSlug" element={<ProductDetail />} />
+<Route path="/products/:productId" element={<ProductDetail />} />
         </Route>
       </Routes>
     </Router>
