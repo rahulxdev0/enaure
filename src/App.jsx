@@ -9,7 +9,6 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import UserProfile from "./components/jewellery/components/userProfile/UserProfile";
 import ViewAndFilterProduct from './components/jewellery/product-filter/ViewAndFilterProduct.jsx';
-
 import ProductDetail from "./components/jewellery/components/product-detail/ProductDetail"; 
 
 const App = () => {
