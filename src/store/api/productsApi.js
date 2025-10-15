@@ -1,42 +1,20 @@
-// import { apiSlice } from './authEndPoints';
-
-// export const productsApi = apiSlice.injectEndpoints({
-//   endpoints: (builder) => ({
-//     getProducts: builder.query({
-//       query: ({ department, category }) => {
-//         let url = `/products?department=${department}`;
-//         if (category) url += `&category=${category}`;
-//         return url;
-//       },
-//       providesTags: ['Products'],
-//     }),
-//     getProductById: builder.query({
-//       query: (id) => `/products/${id}`,
-//       providesTags: (result, error, id) => [{ type: 'Products', id }],
-//     }),
-//     getCategories: builder.query({
-//       query: (department) => `/categories?department=${department}`,
-//       providesTags: ['Categories'],
-//     }),
-//   }),
-// });
-
-// export const {
-//   useGetProductsQuery,
-//   useGetProductByIdQuery,
-//   useGetCategoriesQuery,
-// } = productsApi;
-
-
-
-
-
-// src/store/api/productsApi.js
-// src/services/productApi.js
 import { api } from "./baseApi";
 
 export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    getAndFilterProducts: builder.query({
+      query: (params) => {
+        const queryString = new URLSearchParams(params).toString();
+        return `/shop?${queryString}`;
+      },
+      transformResponse: (response) => {
+        return {
+          products: response?.data?.data?.data ?? [],
+          pagination: response?.data?.data?.pagination ?? {},
+        };
+      },
+      providesTags: ['Products'],
+    }),
     // Get Product by Slug
     getProductBySlug: builder.query({
       query: (slug) => ({
@@ -59,10 +37,25 @@ export const productApi = api.injectEndpoints({
       transformResponse: (response) => response.data?.product || {},
       providesTags: ["ProductCombination"],
     }),
+    getProductMaterial: builder.query({
+      query: () => ({
+        url: `/products/material?store=jewellery-store`,
+        method: "GET",
+      }),
+    }),
+    getProductPurity: builder.query({
+      query: () => ({
+        url: `/products/purity?store=jewellery-store`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useGetProductBySlugQuery,
   useGetProductCombinationQuery,
+  useGetAndFilterProductsQuery,
+  useGetProductMaterialQuery,
+  useGetProductPurityQuery
 } = productApi;

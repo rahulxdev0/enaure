@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
-const SearchProduct = () => {
+const SearchProduct = ({getSearchValue, isLoading = false}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query) => {
     console.log('Search query:', query);
-    // API implementation will go here later
+    
+    getSearchValue(query)
   };
 
   const handleSubmit = (e) => {
@@ -37,29 +38,35 @@ const SearchProduct = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for rings, necklaces, earrings..."
-                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-full text-sm bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                disabled={isLoading}
+                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-full text-sm bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-amber-500 text-white border-none rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-amber-600 transition-colors"
+                disabled={isLoading}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-amber-500 text-white border-none rounded-full w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-amber-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
-                <svg 
-                  className="w-4 h-4" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-                  />
-                </svg>
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <svg 
+                    className="w-4 h-4" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+                    />
+                  </svg>
+                )}
               </button>
             </div>
             
-            {searchQuery && (
+            {searchQuery && !isLoading && (
               <button
                 type="button"
                 onClick={handleClear}

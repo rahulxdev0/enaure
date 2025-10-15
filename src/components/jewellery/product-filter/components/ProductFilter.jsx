@@ -1,6 +1,18 @@
 import React from 'react';
+import { useGetBrandsQuery, useGetCategoriesQuery } from '../../../../store/api/jewellery/homeApiEndpoints';
+import { useGetProductMaterialQuery, useGetProductPurityQuery } from '../../../../store/api/productsApi';
 
 const ProductFilters = ({ onFilterChange, currentFilters, hideCategory = false }) => {
+  const {data: categoryData, isLoading, error} = useGetCategoriesQuery();
+  const { data: brand} = useGetBrandsQuery();
+  const {data: productMaterial} = useGetProductMaterialQuery();
+  const {data: productPurity} = useGetProductPurityQuery()
+
+  const brandsData = brand?.data || []
+  const materialData = productMaterial?.data?.materials || []
+  const purityData = productPurity?.data?.puritys || []
+
+
   // Default filters if currentFilters is undefined
   const filters = currentFilters || {
     category: '',
@@ -14,80 +26,51 @@ const ProductFilters = ({ onFilterChange, currentFilters, hideCategory = false }
     rating: ''
   };
 
-  const categories = [
-    { value: 'rings', label: 'Rings' },
-    { value: 'necklaces', label: 'Necklaces' },
-    { value: 'earrings', label: 'Earrings' },
-    { value: 'bracelets', label: 'Bracelets' }
-  ];
+  const categories = categoryData?.map(cat => ({
+    value: cat.id,
+    label: cat.name
+  })) || [];
 
-  const brands = [
-    { value: 'tiffany', label: 'Tiffany & Co.' },
-    { value: 'cartier', label: 'Cartier' },
-    { value: 'bulgari', label: 'Bulgari' },
-    { value: 'van-cleef', label: 'Van Cleef & Arpels' }
-  ];
+  const brands = brandsData?.map(brand => ({
+    value: brand.id,
+    label: brand.slug.charAt(0).toUpperCase() + brand.slug.slice(1)
+  })) || [];
 
-  const materials = [
-    { value: 'silver', label: 'Silver' },
-    { value: 'gold', label: 'Gold' }
-  ];
+  const materials = materialData?.map(material => ({
+    value: material.toLowerCase(),
+    label: material
+  })) || [];
 
-  const stones = [
-    { value: 'diamond', label: 'Diamond' },
-    { value: 'silver-stone', label: 'Silver stone' }
-  ];
-
-  const colors = [
-    { value: 'white', label: 'White' },
-    { value: 'yellow', label: 'Yellow' }
-  ];
-
-  const ratings = [
-    { value: '5', label: 'Rated 5 out of 5' },
-    { value: '4', label: 'Rated 4 out of 5' },
-    { value: '3', label: 'Rated 3 out of 5' },
-    { value: '2', label: 'Rated 2 out of 5' },
-    { value: '1', label: 'Rated 1 out of 5' }
-  ];
 
   const handleCategoryChange = (value) => {
-    console.log('Category selected:', value);
-    onFilterChange({ ...filters, category: value });
+    const numValue = Number(value);
+    console.log('Category selected:', numValue);
+    console.log('Selected category filter:', numValue);
+    onFilterChange({ ...filters, category: numValue });
   };
 
   const handleBrandChange = (value) => {
-    console.log('Brand selected:', value);
-    onFilterChange({ ...filters, brand: value });
+    const numValue = Number(value);
+    console.log('Brand selected:', numValue);
+    console.log('Selected brand filter:', numValue);
+    onFilterChange({ ...filters, brand: numValue });
   };
 
   const handleMaterialChange = (value) => {
     console.log('Material selected:', value);
+    console.log('Selected material filter:', value);
     onFilterChange({ ...filters, material: value });
-  };
-
-  const handleStoneChange = (value) => {
-    console.log('Stone selected:', value);
-    onFilterChange({ ...filters, stone: value });
-  };
-
-  const handleColorChange = (value) => {
-    console.log('Color selected:', value);
-    onFilterChange({ ...filters, color: value });
-  };
-
-  const handleRatingChange = (value) => {
-    console.log('Rating selected:', value);
-    onFilterChange({ ...filters, rating: value });
   };
 
   const handlePriceChange = (min, max) => {
     console.log('Price range selected:', { min, max });
+    console.log('Selected price filter:', { priceMin: min, priceMax: max });
     onFilterChange({ ...filters, priceMin: min, priceMax: max });
   };
 
   const handleOffersChange = (checked) => {
     console.log('On Sale filter:', checked);
+    console.log('Selected offers filter:', checked);
     onFilterChange({ ...filters, offers: checked });
   };
 
@@ -122,6 +105,35 @@ const ProductFilters = ({ onFilterChange, currentFilters, hideCategory = false }
         </button>
       </div>
 
+      {/* Active Filters Display */}
+      {(filters.category || filters.brand || filters.material || filters.offers) && (
+        <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-xs font-semibold text-amber-800 mb-2">Active Filters:</p>
+          <div className="flex flex-wrap gap-2">
+            {filters.category && (
+              <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded-full">
+                Category: {categories.find(c => c.value === filters.category)?.label}
+              </span>
+            )}
+            {filters.brand && (
+              <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded-full">
+                Brand: {brands.find(b => b.value === filters.brand)?.label}
+              </span>
+            )}
+            {filters.material && (
+              <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded-full">
+                Material: {materials.find(m => m.value === filters.material)?.label}
+              </span>
+            )}
+            {filters.offers && (
+              <span className="text-xs bg-amber-500 text-white px-2 py-1 rounded-full">
+                On Sale
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Category Filter */}
       {!hideCategory && (
         <div className="mb-6">
@@ -135,7 +147,7 @@ const ProductFilters = ({ onFilterChange, currentFilters, hideCategory = false }
                   type="radio"
                   name="category"
                   value={category.value}
-                  checked={filters.category === category.value}
+                  checked={Number(filters.category) === Number(category.value)}
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   className="mr-2 text-amber-500 focus:ring-amber-500"
                 />
@@ -158,7 +170,7 @@ const ProductFilters = ({ onFilterChange, currentFilters, hideCategory = false }
                 type="radio"
                 name="brand"
                 value={brand.value}
-                checked={filters.brand === brand.value}
+                checked={Number(filters.brand) === Number(brand.value)}
                 onChange={(e) => handleBrandChange(e.target.value)}
                 className="mr-2 text-amber-500 focus:ring-amber-500"
               />
@@ -185,72 +197,6 @@ const ProductFilters = ({ onFilterChange, currentFilters, hideCategory = false }
                 className="mr-2 text-amber-500 focus:ring-amber-500"
               />
               {material.label}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Stone Filter */}
-      <div className="mb-6">
-        <h3 className="text-sm font-bold text-gray-900 mb-3">
-          Stone
-        </h3>
-        <div className="flex flex-col gap-2">
-          {stones.map(stone => (
-            <label key={stone.value} className="flex items-center text-sm cursor-pointer">
-              <input
-                type="radio"
-                name="stone"
-                value={stone.value}
-                checked={filters.stone === stone.value}
-                onChange={(e) => handleStoneChange(e.target.value)}
-                className="mr-2 text-amber-500 focus:ring-amber-500"
-              />
-              {stone.label}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Color Filter */}
-      <div className="mb-6">
-        <h3 className="text-sm font-bold text-gray-900 mb-3">
-          Color
-        </h3>
-        <div className="flex flex-col gap-2">
-          {colors.map(color => (
-            <label key={color.value} className="flex items-center text-sm cursor-pointer">
-              <input
-                type="radio"
-                name="color"
-                value={color.value}
-                checked={filters.color === color.value}
-                onChange={(e) => handleColorChange(e.target.value)}
-                className="mr-2 text-amber-500 focus:ring-amber-500"
-              />
-              {color.label}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Rating Filter */}
-      <div className="mb-6">
-        <h3 className="text-sm font-bold text-gray-900 mb-3">
-          Rating
-        </h3>
-        <div className="flex flex-col gap-2">
-          {ratings.map(rating => (
-            <label key={rating.value} className="flex items-center text-sm cursor-pointer">
-              <input
-                type="radio"
-                name="rating"
-                value={rating.value}
-                checked={filters.rating === rating.value}
-                onChange={(e) => handleRatingChange(e.target.value)}
-                className="mr-2 text-amber-500 focus:ring-amber-500"
-              />
-              {rating.label}
             </label>
           ))}
         </div>
