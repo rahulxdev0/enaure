@@ -169,17 +169,17 @@ const NewCollection = () => {
               <h3 className={titleStyle}>
                 JEWELRY TELLS A GREAT STORY
               </h3>
-              <ink to="/view-product"className={buttonStyle}>
+              <Link to="/view-product" className={buttonStyle}>
                 Discover more
-              </ink>
+              </Link>
             </div>
             <div className="text-center">
               <h3 className={titleStyle}>
                 DISCOVER NEW ARRIVALS
               </h3>
-              <ink to="/view-product" className={buttonStyle}>
+              <Link to="/view-product"  className={buttonStyle}>
                 Discover more
-              </ink>
+              </Link>
             </div>
           </div>
         </div>
@@ -251,7 +251,7 @@ const NewCollection = () => {
               <h3 className={titleStyle}>
                 JEWELRY TELLS A GREAT STORY
               </h3>
-              <Link to="/view-product" className={buttonStyle}>
+              <Link to="/view-product"   className={buttonStyle}>
                 Discover more
               </Link>
             </div>
@@ -263,7 +263,7 @@ const NewCollection = () => {
               <h3 className={titleStyle}>
                 DISCOVER NEW ARRIVALS
               </h3>
-              <Link to="/view-product"className={buttonStyle}>
+              <Link to="/view-product"  className={buttonStyle}>
                 Discover more
               </Link>
             </div>
