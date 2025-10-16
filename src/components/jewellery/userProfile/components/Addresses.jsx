@@ -1,11 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
 import { Plus, MapPin, Edit2, Trash2, Home, Building, X, Check } from 'lucide-react';
+// Import the custom hook
+import useMobileCheck from '../../../../hooks/useMobileCheck'; 
 
 const Addresses = () => {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
+  const isMobile = useMobileCheck(); // <--- Use the hook
+
   const [formData, setFormData] = useState({
     name: '',
     type: 'home',
@@ -19,7 +24,7 @@ const Addresses = () => {
     phone: ''
   });
 
-  // Mock data
+  // Mock data (omitted for brevity)
   const mockAddresses = [
     { 
       id: 1, 
@@ -53,7 +58,6 @@ const Addresses = () => {
     const fetchAddresses = async () => {
       setLoading(true);
       try {
-        // Replace with actual API call
         setTimeout(() => {
           setAddresses(mockAddresses);
           setLoading(false);
@@ -73,7 +77,6 @@ const Addresses = () => {
     
     try {
       if (editingAddress) {
-        // Replace with actual API call
         setAddresses(addresses.map(addr => 
           addr.id === editingAddress.id ? { ...formData, id: editingAddress.id } : addr
         ));
@@ -82,6 +85,16 @@ const Addresses = () => {
         setAddresses([...addresses, newAddress]);
       }
       
+      // Handle setting new address as default and unsetting others
+      if (formData.isDefault) {
+        setAddresses(prev => prev.map(addr => ({
+          ...addr,
+          isDefault: addr.id === (editingAddress?.id || Date.now()) // Use Date.now() for new address before it's set
+            ? true
+            : false
+        })));
+      }
+
       setShowAddForm(false);
       setEditingAddress(null);
       setFormData({
@@ -149,7 +162,7 @@ const Addresses = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center -mt-80">
-         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500 mx-auto"></div>
           <p className="text-lg text-gray-600">Loading your addresses...</p>
         </div>
       </div>
@@ -160,7 +173,7 @@ const Addresses = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4 max-w-6xl">
 
-        {/* Address Form - Shown when adding/editing */}
+        {/* Address Form - Adjusted for mobile grid */}
         {showAddForm && (
           <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
@@ -177,7 +190,9 @@ const Addresses = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Responsive Grid: 1 column on mobile, 2 on desktop */}
+              <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'md:grid-cols-2 gap-6'}`}> 
+                {/* Full Name and Phone (now stacked on mobile) */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name *
@@ -207,6 +222,7 @@ const Addresses = () => {
                 </div>
               </div>
 
+              {/* Street Address & Apartment (unchanged) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Street Address *
@@ -234,7 +250,9 @@ const Addresses = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Responsive Grid: City, State, ZIP */}
+              <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'md:grid-cols-3 gap-6'}`}>
+                {/* City */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     City *
@@ -249,6 +267,7 @@ const Addresses = () => {
                   />
                 </div>
 
+                {/* State */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     State *
@@ -263,6 +282,7 @@ const Addresses = () => {
                   />
                 </div>
 
+                {/* ZIP Code */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     ZIP Code *
@@ -278,7 +298,8 @@ const Addresses = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Address Type and Default Checkbox (stacked on mobile) */}
+              <div className={`grid grid-cols-1 ${isMobile ? 'gap-4' : 'md:grid-cols-2 gap-6'}`}>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Address Type
@@ -287,7 +308,7 @@ const Addresses = () => {
                     <button
                       type="button"
                       onClick={() => setFormData({...formData, type: 'home'})}
-                      className={`flex items-center px-4 py-3 rounded-lg border transition-all duration-200 ${
+                      className={`flex-1 flex items-center justify-center px-4 py-3 rounded-lg border transition-all duration-200 ${
                         formData.type === 'home'
                           ? 'border-yellow-500 bg-yellow-50 text-yellow-700'
                           : 'border-gray-300 text-gray-600 hover:border-yellow-400'
@@ -299,7 +320,7 @@ const Addresses = () => {
                     <button
                       type="button"
                       onClick={() => setFormData({...formData, type: 'work'})}
-                      className={`flex items-center px-4 py-3 rounded-lg border transition-all duration-200 ${
+                      className={`flex-1 flex items-center justify-center px-4 py-3 rounded-lg border transition-all duration-200 ${
                         formData.type === 'work'
                           ? 'border-yellow-500 bg-yellow-50 text-yellow-700'
                           : 'border-gray-300 text-gray-600 hover:border-yellow-400'
@@ -311,7 +332,7 @@ const Addresses = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center">
+                <div className={`${isMobile ? 'pt-4' : 'flex items-center pt-8'}`}>
                   <label className="flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -333,11 +354,17 @@ const Addresses = () => {
                 </div>
               </div>
 
-              <div className="flex space-x-4 pt-4">
+              {/* Form Actions (full width on mobile) */}
+              <div className={`flex ${isMobile ? 'flex-col space-y-3' : 'space-x-4 pt-4'}`}>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-yellow-600 hover:to-yellow-700 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={`
+                    ${isMobile ? 'w-full' : 'flex-1'}
+                    bg-gradient-to-r from-yellow-500 to-yellow-600 text-white py-3 px-6 rounded-lg font-semibold 
+                    hover:from-yellow-600 hover:to-yellow-700 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 
+                    transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
+                  `}
                 >
                   {loading ? (
                     <div className="flex items-center justify-center">
@@ -351,7 +378,11 @@ const Addresses = () => {
                 <button
                   type="button"
                   onClick={cancelForm}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200"
+                  className={`
+                    ${isMobile ? 'w-full' : 'px-6'}
+                    py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 
+                    transition-colors duration-200
+                  `}
                 >
                   Cancel
                 </button>
@@ -362,6 +393,7 @@ const Addresses = () => {
 
         {/* Addresses Grid */}
         {addresses.length === 0 && !showAddForm ? (
+          // Empty state... (omitted for brevity)
           <div className="text-center py-16 bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="max-w-md mx-auto">
               <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
@@ -382,8 +414,8 @@ const Addresses = () => {
           </div>
         ) : (
           <>
-            {/* Address Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+            {/* Address Cards - Responsive grid change */}
+            <div className={`grid grid-cols-1 gap-6 mb-8 ${isMobile ? 'md:grid-cols-1' : 'md:grid-cols-2 lg:grid-cols-2'}`}>
               {addresses.map(address => (
                 <div
                   key={address.id}
@@ -393,8 +425,8 @@ const Addresses = () => {
                       : 'border-gray-200 hover:border-yellow-300'
                   }`}
                 >
+                  {/* ... Address Card content (omitted for brevity) */}
                   <div className="p-6">
-                    {/* Header */}
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center">
                         <div className={`p-2 rounded-lg ${getAddressTypeColor(address.type)}`}>
@@ -411,8 +443,6 @@ const Addresses = () => {
                           )}
                         </div>
                       </div>
-                      
-                      {/* Action Buttons */}
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleEdit(address)}
@@ -430,8 +460,6 @@ const Addresses = () => {
                         </button>
                       </div>
                     </div>
-
-                    {/* Address Details */}
                     <div className="space-y-2">
                       <p className="font-medium text-gray-900">{address.name}</p>
                       <p className="text-gray-600">{address.street}</p>
@@ -444,8 +472,6 @@ const Addresses = () => {
                       <p className="text-gray-600">{address.country}</p>
                       <p className="text-gray-600">{address.phone}</p>
                     </div>
-
-                    {/* Default Address Badge */}
                     {address.isDefault && (
                       <div className="mt-4 pt-4 border-t border-yellow-200">
                         <div className="flex items-center text-sm text-yellow-700">
@@ -459,7 +485,7 @@ const Addresses = () => {
               ))}
             </div>
 
-            {/* Add New Address Button - Now below the address cards */}
+            {/* Add New Address Button */}
             {!showAddForm && (
               <div className="text-center">
                 <button

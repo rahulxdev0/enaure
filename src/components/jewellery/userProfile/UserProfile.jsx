@@ -1,13 +1,14 @@
+//src/components/jewellery/userProfile/UserProfile.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, X, LogOut, Home as HomeIcon, ShoppingBag } from 'lucide-react';
-import Dashboard from './Dashboard';
-import Orders from './Orders';
-import Wishlist from './Wishlist';
-import Addresses from './Addresses';
-import AccountDetails from './AccountDetails';
-import History from './History';
-import useMobileCheck from '../../../../hooks/useMobileCheck';
+import { Menu, X, LogOut, Home as HomeIcon, ShoppingBag, Gem, Crown } from 'lucide-react';
+import Dashboard from './components/Dashboard';
+import Orders from './components/Orders';
+import Wishlist from './components/Wishlist';
+import Addresses from './components/Addresses';
+import AccountDetails from './components/AccountDetails';
+import History from './components/History';
+import useMobileCheck from '../../../hooks/useMobileCheck';
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -36,75 +37,58 @@ const UserProfile = () => {
     }
   };
 
-  // Tab headers configuration
-  const tabHeaders = {
-    dashboard: {
-      title: 'Dashboard',
-      description: 'Overview of your account activity',
-    },
-    orders: {
-      title: 'Orders',
-      description: 'Manage and track your orders',
-    },
-    history: {
-      title: 'History',
-      description: 'View your purchase history',
-    },
-    wishlist: {
-      title: 'Wishlist',
-      description: 'Your saved favorite items',
-    },
-    addresses: {
-      title: 'Addresses',
-      description: 'Manage your shipping addresses',
-    },
-    account: {
-      title: 'Account Details',
-      description: 'Manage your profile and security settings',
-    }
-  };
-
   const styles = {
     userProfile: {
-      maxWidth: '1200px',
+      maxWidth: '1400px',
       margin: '0 auto',
-      padding: isMobile ? '15px' : '20px',
-      fontFamily: 'Arial, sans-serif'
+      padding: isMobile ? '15px' : '30px',
+      fontFamily: '"Playfair Display", serif',
+      background: 'linear-gradient(135deg, #fefefe 0%, #fafafa 100%)',
+      minHeight: '100vh'
     },
     breadcrumb: {
       fontSize: isMobile ? '12px' : '14px',
       color: '#666',
-      marginBottom: isMobile ? '15px' : '20px',
+      marginBottom: isMobile ? '20px' : '30px',
       display: 'flex',
       alignItems: 'center',
       flexWrap: 'wrap',
-      gap: isMobile ? '4px' : '8px'
+      gap: isMobile ? '4px' : '8px',
+      padding: '15px 0',
+      borderBottom: '1px solid #f0f0f0'
     },
     breadcrumbLink: {
-      color: '#f59e0b',
+      color: '#b8860b',
       cursor: 'pointer',
       textDecoration: 'none',
-      transition: 'color 0.3s',
+      transition: 'all 0.3s ease',
       display: 'flex',
       alignItems: 'center',
-      gap: '4px'
+      gap: '6px',
+      fontWeight: '500',
+      padding: '4px 8px',
+      borderRadius: '4px'
     },
     breadcrumbSeparator: {
-      color: '#999',
-      margin: '0 4px'
+      color: '#ccc',
+      margin: '0 8px',
+      fontWeight: '300'
     },
     breadcrumbCurrent: {
-      color: '#666'
+      color: '#333',
+      fontWeight: '600'
     },
     accountLayout: {
       display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : '250px 1fr',
-      gap: isMobile ? '20px' : '40px'
+      gridTemplateColumns: isMobile ? '1fr' : '280px 1fr',
+      gap: isMobile ? '20px' : '50px',
+      alignItems: 'start'
     },
     accountSidebar: {
-      background: '#f8f8f8',
-      padding: isMobile ? '15px' : '20px',
-      borderRadius: isMobile ? '0' : '0', // Removed rounded corners
+      background: 'linear-gradient(135deg, #fff 0%, #f8f8f8 100%)',
+      padding: isMobile ? '20px' : '25px',
+      borderRadius: '0',
+      border: '1px solid #e8e8e8',
       position: isMobile ? 'fixed' : 'static',
       top: isMobile ? '0' : 'auto',
       left: isMobile ? '0' : 'auto',
@@ -113,8 +97,9 @@ const UserProfile = () => {
       zIndex: isMobile ? '1000' : 'auto',
       transform: isMobile ? (mobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)') : 'none',
       transition: isMobile ? 'transform 0.3s ease' : 'none',
-      width: isMobile ? '280px' : 'auto',
-      overflowY: isMobile ? 'auto' : 'visible'
+      width: isMobile ? '300px' : 'auto',
+      overflowY: isMobile ? 'auto' : 'visible',
+      boxShadow: isMobile ? '2px 0 20px rgba(0,0,0,0.1)' : 'none'
     },
     sidebarList: {
       listStyle: 'none',
@@ -122,52 +107,63 @@ const UserProfile = () => {
       margin: '0'
     },
     sidebarItem: {
-      marginBottom: isMobile ? '8px' : '10px'
+      marginBottom: '8px'
     },
     sidebarButton: {
       width: '100%',
-      padding: isMobile ? '10px 12px' : '12px 15px',
+      padding: isMobile ? '14px 16px' : '16px 20px',
       border: 'none',
       background: 'none',
       textAlign: 'left',
       cursor: 'pointer',
-      fontSize: isMobile ? '13px' : '14px',
-      borderRadius: '0', // Removed rounded corners from buttons
-      transition: 'background-color 0.3s',
+      fontSize: isMobile ? '14px' : '15px',
+      borderRadius: '0',
+      transition: 'all 0.3s ease',
       display: 'flex',
       alignItems: 'center',
-      gap: '8px'
+      gap: '12px',
+      fontWeight: '500',
+      color: '#333',
+      borderLeft: '3px solid transparent'
     },
     activeButton: {
-      background: '#f59e0b',
-      color: 'white'
+      background: 'linear-gradient(135deg, #b8860b 0%, #d4af37 100%)',
+      color: 'white',
+      borderLeft: '3px solid #8b6914',
+      boxShadow: '0 4px 15px rgba(184, 134, 11, 0.2)'
     },
     logoutButton: {
-      color: '#ff4444',
-      marginTop: isMobile ? '15px' : '20px'
+      color: '#d32f2f',
+      marginTop: '25px',
+      border: '1px solid #ffcdd2',
+      background: '#fff'
     },
     accountContent: {
-      minHeight: isMobile ? '300px' : '400px'
+      minHeight: isMobile ? '300px' : '500px',
+      background: 'white',
+      border: '1px solid #e8e8e8'
     },
     mobileHeader: {
       display: isMobile ? 'flex' : 'none',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginBottom: '15px',
-      padding: '10px 0',
-      borderBottom: '1px solid #eee'
+      marginBottom: '20px',
+      padding: '15px 0',
+      borderBottom: '2px solid #b8860b'
     },
     mobileMenuButton: {
-      background: '#f59e0b',
+      background: 'linear-gradient(135deg, #b8860b 0%, #d4af37 100%)',
       color: 'white',
       border: 'none',
-      padding: '8px 12px',
-      borderRadius: '0', // Removed rounded corners
+      padding: '10px 16px',
+      borderRadius: '0',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      gap: '6px',
-      fontSize: '14px'
+      gap: '8px',
+      fontSize: '14px',
+      fontWeight: '600',
+      boxShadow: '0 2px 10px rgba(184, 134, 11, 0.3)'
     },
     overlay: {
       display: isMobile && mobileMenuOpen ? 'block' : 'none',
@@ -186,7 +182,10 @@ const UserProfile = () => {
       fontSize: '20px',
       cursor: 'pointer',
       color: '#666',
-      marginBottom: '15px'
+      marginBottom: '20px',
+      padding: '8px',
+      borderRadius: '4px',
+      background: '#f5f5f5'
     }
   };
 
@@ -219,65 +218,58 @@ const UserProfile = () => {
         />
       )}
 
+      {/* Breadcrumb */}
       <div style={styles.breadcrumb}>
         <span 
           style={styles.breadcrumbLink}
           onClick={handleHomeClick}
-          onMouseEnter={(e) => e.target.style.color = '#e67e22'}
-          onMouseLeave={(e) => e.target.style.color = '#f59e0b'}
+          onMouseEnter={(e) => {
+            e.target.style.background = '#fff8e1';
+            e.target.style.color = '#8b6914';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = 'none';
+            e.target.style.color = '#b8860b';
+          }}
         >
-          {isMobile ? <HomeIcon size={14} /> : null}
+          <HomeIcon size={isMobile ? 14 : 16} />
           Home
         </span>
         <span style={styles.breadcrumbSeparator}>›</span>
         <span 
           style={styles.breadcrumbLink}
           onClick={handleShopClick}
-          onMouseEnter={(e) => e.target.style.color = '#e67e22'}
-          onMouseLeave={(e) => e.target.style.color = '#f59e0b'}
+          onMouseEnter={(e) => {
+            e.target.style.background = '#fff8e1';
+            e.target.style.color = '#8b6914';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = 'none';
+            e.target.style.color = '#b8860b';
+          }}
         >
-          {isMobile ? <ShoppingBag size={14} /> : null}
+          <ShoppingBag size={isMobile ? 14 : 16} />
           Shop
         </span>
         <span style={styles.breadcrumbSeparator}>›</span>
-        <span style={styles.breadcrumbCurrent}>My account</span>
+        <span style={styles.breadcrumbCurrent}>My Account</span>
       </div>
 
-      {/* Mobile Header */}
+      {/* Mobile Header - Only Menu Button */}
       {isMobile && (
         <div style={styles.mobileHeader}>
           <button 
             style={styles.mobileMenuButton}
             onClick={() => setMobileMenuOpen(true)}
           >
-            <Menu size={16} />
+            <Menu size={18} />
             Menu
           </button>
-          <div className="text-center flex-1">
-            <h1 className="text-xl font-bold text-gray-900">
-              {tabHeaders[activeTab].title}
-            </h1>
-          </div>
-        </div>
-      )}
-
-      {/* Desktop Header */}
-      {!isMobile && (
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            {tabHeaders[activeTab].title}
-          </h1>
-          <div className="flex items-center justify-center space-x-1 mb-2">
-            <span className="inline-block w-16 md:w-20 h-1 bg-yellow-600 rounded-full"></span>
-            <span className="inline-block w-2 md:w-3 h-1 bg-yellow-600 rounded-full"></span>
-            <span className="inline-block w-1 h-1 bg-yellow-600 rounded-full"></span>
-          </div>
-          <p className="text-gray-600">{tabHeaders[activeTab].description}</p>
         </div>
       )}
 
       <div style={styles.accountLayout}>
-        {/* Mobile Sidebar - Now placed outside the main layout */}
+        {/* Mobile Sidebar */}
         {isMobile && (
           <nav style={styles.accountSidebar}>
             <button 
@@ -295,7 +287,10 @@ const UserProfile = () => {
                     ...(activeTab === 'dashboard' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('dashboard')}
+                  onMouseEnter={(e) => activeTab !== 'dashboard' && (e.target.style.background = '#fff8e1')}
+                  onMouseLeave={(e) => activeTab !== 'dashboard' && (e.target.style.background = 'none')}
                 >
+                  <Crown size={18} />
                   Dashboard
                 </button>
               </li>
@@ -306,7 +301,10 @@ const UserProfile = () => {
                     ...(activeTab === 'orders' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('orders')}
+                  onMouseEnter={(e) => activeTab !== 'orders' && (e.target.style.background = '#fff8e1')}
+                  onMouseLeave={(e) => activeTab !== 'orders' && (e.target.style.background = 'none')}
                 >
+                  <ShoppingBag size={18} />
                   Orders
                 </button>
               </li>
@@ -317,7 +315,10 @@ const UserProfile = () => {
                     ...(activeTab === 'history' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('history')}
+                  onMouseEnter={(e) => activeTab !== 'history' && (e.target.style.background = '#fff8e1')}
+                  onMouseLeave={(e) => activeTab !== 'history' && (e.target.style.background = 'none')}
                 >
+                  <Gem size={18} />
                   History
                 </button>
               </li>
@@ -328,7 +329,10 @@ const UserProfile = () => {
                     ...(activeTab === 'wishlist' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('wishlist')}
+                  onMouseEnter={(e) => activeTab !== 'wishlist' && (e.target.style.background = '#fff8e1')}
+                  onMouseLeave={(e) => activeTab !== 'wishlist' && (e.target.style.background = 'none')}
                 >
+                  <Gem size={18} />
                   Wishlist
                 </button>
               </li>
@@ -339,7 +343,10 @@ const UserProfile = () => {
                     ...(activeTab === 'addresses' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('addresses')}
+                  onMouseEnter={(e) => activeTab !== 'addresses' && (e.target.style.background = '#fff8e1')}
+                  onMouseLeave={(e) => activeTab !== 'addresses' && (e.target.style.background = 'none')}
                 >
+                  <ShoppingBag size={18} />
                   Addresses
                 </button>
               </li>
@@ -350,8 +357,11 @@ const UserProfile = () => {
                     ...(activeTab === 'account' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('account')}
+                  onMouseEnter={(e) => activeTab !== 'account' && (e.target.style.background = '#fff8e1')}
+                  onMouseLeave={(e) => activeTab !== 'account' && (e.target.style.background = 'none')}
                 >
-                  Account details
+                  <Crown size={18} />
+                  Account Details
                 </button>
               </li>
               <li style={styles.sidebarItem}>
@@ -361,8 +371,16 @@ const UserProfile = () => {
                     ...styles.logoutButton
                   }}
                   onClick={handleLogout}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#ffebee';
+                    e.target.style.color = '#c62828';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = '#fff';
+                    e.target.style.color = '#d32f2f';
+                  }}
                 >
-                  <LogOut size={16} />
+                  <LogOut size={18} />
                   Log out
                 </button>
               </li>
@@ -370,7 +388,7 @@ const UserProfile = () => {
           </nav>
         )}
 
-        {/* Desktop Sidebar - Unchanged */}
+        {/* Desktop Sidebar */}
         {!isMobile && (
           <nav style={styles.accountSidebar}>
             <ul style={styles.sidebarList}>
@@ -381,9 +399,10 @@ const UserProfile = () => {
                     ...(activeTab === 'dashboard' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('dashboard')}
-                  onMouseEnter={(e) => activeTab !== 'dashboard' && (e.target.style.background = '#e8e8e8')}
+                  onMouseEnter={(e) => activeTab !== 'dashboard' && (e.target.style.background = '#fff8e1')}
                   onMouseLeave={(e) => activeTab !== 'dashboard' && (e.target.style.background = 'none')}
                 >
+                  <Crown size={18} />
                   Dashboard
                 </button>
               </li>
@@ -394,9 +413,10 @@ const UserProfile = () => {
                     ...(activeTab === 'orders' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('orders')}
-                  onMouseEnter={(e) => activeTab !== 'orders' && (e.target.style.background = '#e8e8e8')}
+                  onMouseEnter={(e) => activeTab !== 'orders' && (e.target.style.background = '#fff8e1')}
                   onMouseLeave={(e) => activeTab !== 'orders' && (e.target.style.background = 'none')}
                 >
+                  <ShoppingBag size={18} />
                   Orders
                 </button>
               </li>
@@ -407,9 +427,10 @@ const UserProfile = () => {
                     ...(activeTab === 'history' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('history')}
-                  onMouseEnter={(e) => activeTab !== 'history' && (e.target.style.background = '#e8e8e8')}
+                  onMouseEnter={(e) => activeTab !== 'history' && (e.target.style.background = '#fff8e1')}
                   onMouseLeave={(e) => activeTab !== 'history' && (e.target.style.background = 'none')}
                 >
+                  <Gem size={18} />
                   History
                 </button>
               </li>
@@ -420,9 +441,10 @@ const UserProfile = () => {
                     ...(activeTab === 'wishlist' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('wishlist')}
-                  onMouseEnter={(e) => activeTab !== 'wishlist' && (e.target.style.background = '#e8e8e8')}
+                  onMouseEnter={(e) => activeTab !== 'wishlist' && (e.target.style.background = '#fff8e1')}
                   onMouseLeave={(e) => activeTab !== 'wishlist' && (e.target.style.background = 'none')}
                 >
+                  <Gem size={18} />
                   Wishlist
                 </button>
               </li>
@@ -433,9 +455,10 @@ const UserProfile = () => {
                     ...(activeTab === 'addresses' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('addresses')}
-                  onMouseEnter={(e) => activeTab !== 'addresses' && (e.target.style.background = '#e8e8e8')}
+                  onMouseEnter={(e) => activeTab !== 'addresses' && (e.target.style.background = '#fff8e1')}
                   onMouseLeave={(e) => activeTab !== 'addresses' && (e.target.style.background = 'none')}
                 >
+                  <ShoppingBag size={18} />
                   Addresses
                 </button>
               </li>
@@ -446,10 +469,11 @@ const UserProfile = () => {
                     ...(activeTab === 'account' ? styles.activeButton : {})
                   }}
                   onClick={() => handleTabClick('account')}
-                  onMouseEnter={(e) => activeTab !== 'account' && (e.target.style.background = '#e8e8e8')}
+                  onMouseEnter={(e) => activeTab !== 'account' && (e.target.style.background = '#fff8e1')}
                   onMouseLeave={(e) => activeTab !== 'account' && (e.target.style.background = 'none')}
                 >
-                  Account details
+                  <Crown size={18} />
+                  Account Details
                 </button>
               </li>
               <li style={styles.sidebarItem}>
@@ -459,10 +483,16 @@ const UserProfile = () => {
                     ...styles.logoutButton
                   }}
                   onClick={handleLogout}
-                  onMouseEnter={(e) => e.target.style.background = '#ffe8e8'}
-                  onMouseLeave={(e) => e.target.style.background = 'none'}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#ffebee';
+                    e.target.style.color = '#c62828';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = '#fff';
+                    e.target.style.color = '#d32f2f';
+                  }}
                 >
-                  <LogOut size={16} />
+                  <LogOut size={18} />
                   Log out
                 </button>
               </li>
@@ -470,6 +500,7 @@ const UserProfile = () => {
           </nav>
         )}
 
+        {/* Main Content */}
         <main style={styles.accountContent}>
           {renderContent()}
         </main>

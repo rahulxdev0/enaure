@@ -1,3 +1,4 @@
+//src/hooks/useMobileCheck.jsx
 import { useState, useEffect } from 'react';
 
 const useMobileCheck = (breakpoint = 768) => {

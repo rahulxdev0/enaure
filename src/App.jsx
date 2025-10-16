@@ -7,9 +7,11 @@ import OrganicPage from './components/organic/OrganicPage';
 import GreenEnergyPage from './components/green-energy/GreenEnergyPage';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
-import UserProfile from "./components/jewellery/components/userProfile/UserProfile";
+import UserProfile from "./components/jewellery/userProfile/UserProfile";
 import ViewAndFilterProduct from './components/jewellery/product-filter/ViewAndFilterProduct.jsx';
-import ProductDetail from "./components/jewellery/components/product-detail/ProductDetail"; 
+import ProductDetail from "./components/jewellery/components/product-detail/ProductDetail";
+import Cart from './components/jewellery/cart/Cart'; 
+import Checkout from './components/jewellery/checkout/Checkout'; 
 
 const App = () => {
   return (
@@ -24,8 +26,10 @@ const App = () => {
           <Route path="register" element={<Register />} />
           <Route path="profile" element={<UserProfile />} />
           <Route path="view-product" element={<ViewAndFilterProduct />} />
-           <Route path="/product/:productSlug" element={<ProductDetail />} />
-<Route path="/products/:productId" element={<ProductDetail />} />
+          <Route path="/product/:productSlug" element={<ProductDetail />} />
+          <Route path="/products/:productId" element={<ProductDetail />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="checkout" element={<Checkout />} />
         </Route>
       </Routes>
     </Router>
