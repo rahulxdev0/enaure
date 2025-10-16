@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import ProductGrid from './ProductGrid';
 
 const ProductSection = ({ productData = [], isLoading = false, currentPage = 1, onPageChange }) => {
-  console.log("product data:", productData);
+  
   
   const [sortBy, setSortBy] = useState('featured');
   
   // Transform API data to match ProductCard props
   const transformedProducts = productData.map(product => ({
     id: product.id,
+    slug: product.slug,
     name: product.name,
     sellerName: 'Enaure Jewelry', // Default seller name since not in API
     price: parseFloat(product.discounted_price),
@@ -20,6 +21,7 @@ const ProductSection = ({ productData = [], isLoading = false, currentPage = 1, 
     stones: product.stones
   }));
 
+  console.log("transformed data:", transformedProducts);
   const totalProducts = transformedProducts.length;
   const totalPages = 1; // This should come from API pagination metadata
 

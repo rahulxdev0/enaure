@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => {
         </div>
       )}
 
-      <Link to={`/jewellery/products/${product.id}`} className="text-inherit no-underline">
+      <Link to={`/products/${product.slug}`} className="text-inherit no-underline">
         {/* Product Image */}
         <div className="relative w-full h-48 bg-gray-50 rounded-lg mb-4 overflow-hidden flex items-center justify-center">
           {imageLoading && (
