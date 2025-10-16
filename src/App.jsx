@@ -7,10 +7,12 @@ import OrganicPage from "./components/organic/OrganicPage";
 import GreenEnergyPage from "./components/green-energy/GreenEnergyPage";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import UserProfile from "./components/jewellery/components/userProfile/UserProfile";
+import UserProfile from "./components/jewellery/userProfile/UserProfile";
 import ViewAndFilterProduct from "./components/jewellery/product-filter/ViewAndFilterProduct.jsx";
 import ProductDetail from "./components/jewellery/components/product-detail/ProductDetail";
 import VerifyOtp from "./pages/VerifyOtp.jsx";
+import Cart from './components/jewellery/cart/Cart'; 
+import Checkout from './components/jewellery/checkout/Checkout'; 
 
 const App = () => {
   return (
