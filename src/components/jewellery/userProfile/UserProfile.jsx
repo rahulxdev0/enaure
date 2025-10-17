@@ -105,15 +105,14 @@ const UserProfile = () => {
       listStyle: 'none',
       padding: '0',
       margin: '0'
-    },
+    },  
     sidebarItem: {
       marginBottom: '8px'
-    },
+    },  
     sidebarButton: {
       width: '100%',
       padding: isMobile ? '14px 16px' : '16px 20px',
       border: 'none',
-      background: 'none',
       textAlign: 'left',
       cursor: 'pointer',
       fontSize: isMobile ? '14px' : '15px',
@@ -131,13 +130,13 @@ const UserProfile = () => {
       color: 'white',
       borderLeft: '3px solid #8b6914',
       boxShadow: '0 4px 15px rgba(184, 134, 11, 0.2)'
-    },
+    },   
     logoutButton: {
       color: '#d32f2f',
       marginTop: '25px',
-      border: '1px solid #ffcdd2',
-      background: '#fff'
-    },
+      border: '1px solid #ffcdd2',  
+      background: '#fff'  
+    },  
     accountContent: {
       minHeight: isMobile ? '300px' : '500px',
       background: 'white',
@@ -150,7 +149,7 @@ const UserProfile = () => {
       marginBottom: '20px',
       padding: '15px 0',
       borderBottom: '2px solid #b8860b'
-    },
+    },  
     mobileMenuButton: {
       background: 'linear-gradient(135deg, #b8860b 0%, #d4af37 100%)',
       color: 'white',
@@ -177,12 +176,11 @@ const UserProfile = () => {
     },
     closeButton: {
       display: isMobile ? 'block' : 'none',
-      background: 'none',
       border: 'none',
       fontSize: '20px',
       cursor: 'pointer',
-      color: '#666',
-      marginBottom: '20px',
+      color: '#666', 
+      marginBottom: '20px',  
       padding: '8px',
       borderRadius: '4px',
       background: '#f5f5f5'
@@ -255,10 +253,10 @@ const UserProfile = () => {
         <span style={styles.breadcrumbCurrent}>My Account</span>
       </div>
 
-      {/* Mobile Header - Only Menu Button */}
+      {/* Mobile Header - Only Menu Button */}  
       {isMobile && (
         <div style={styles.mobileHeader}>
-          <button 
+          <button  
             style={styles.mobileMenuButton}
             onClick={() => setMobileMenuOpen(true)}
           >
@@ -480,7 +478,7 @@ const UserProfile = () => {
                 <button 
                   style={{
                     ...styles.sidebarButton,
-                    ...styles.logoutButton
+                    ...styles.logoutButton  
                   }}
                   onClick={handleLogout}
                   onMouseEnter={(e) => {

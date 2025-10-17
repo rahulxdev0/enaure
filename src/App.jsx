@@ -10,7 +10,7 @@ import Register from "./pages/Register.jsx";
 import UserProfile from "./components/jewellery/userProfile/UserProfile";
 import ViewAndFilterProduct from "./components/jewellery/product-filter/ViewAndFilterProduct.jsx";
 import ProductDetail from "./components/jewellery/components/product-detail/ProductDetail";
-import VerifyOtp from "./pages/VerifyOtp.jsx";
+import VerifyOtp from "./pages/VerifyOtp.jsx";  
 import Cart from './components/jewellery/cart/Cart'; 
 import Checkout from './components/jewellery/checkout/Checkout'; 
 
@@ -28,12 +28,10 @@ const App = () => {
           <Route path="verify-otp" element={<VerifyOtp />} />
           <Route path="profile" element={<UserProfile />} />
           <Route path="view-product" element={<ViewAndFilterProduct />} />
-          <Route path="/product/:productSlug" element={<ProductDetail />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
+           <Route path="/product/:productSlug/combination/:combinationId" element={<ProductDetail />} />
           <Route path="/product/:productSlug" element={<ProductDetail />} />
-          <Route path="/products/:productId" element={<ProductDetail />} />
         </Route>
       </Routes>
     </Router>
